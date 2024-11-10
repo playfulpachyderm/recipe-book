@@ -52,19 +52,19 @@ create table units (rowid integer primary key,
     abbreviation text not null unique check(length(abbreviation) != 0)
     -- is_metric integer not null check(is_metric in (0, 1))
 );
-insert into units(name, abbreviation) values
+insert into units(rowid, name, abbreviation) values
     -- Count
-    ('count', 'ct'),
+    (1, 'count', 'ct'),
     -- Mass
-    ('grams', 'g'),
-    ('pounds', 'lbs'),
-    ('ounces', 'oz'),
+    (2, 'grams', 'g'),
+    (3, 'pounds', 'lbs'),
+    (4, 'ounces', 'oz'),
     -- Volume
-    ('milliliters', 'mL'),
-    ('cups', 'cups'),
-    ('teaspoons', 'tsp'),
-    ('tablespoons', 'tbsp'),
-    ('fluid ounces', 'fl-oz');
+    (5, 'milliliters', 'mL'),
+    (6, 'cups', 'cups'),
+    (7, 'teaspoons', 'tsp'),
+    (8, 'tablespoons', 'tbsp'),
+    (9, 'fluid ounces', 'fl-oz');
 
 
 create table ingredients (rowid integer primary key,
@@ -82,7 +82,7 @@ create table ingredients (rowid integer primary key,
     in_recipe_id integer references recipes(rowid) on delete cascade not null,
     list_order integer not null,
     is_hidden integer not null default false,
-    unique (recipe_id, list_order)
+    unique (in_recipe_id, list_order)
     check((food_id is null) + (recipe_id is null) = 1) -- Exactly one should be active
 ) strict;
 

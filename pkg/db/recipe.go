@@ -76,12 +76,6 @@ func (db *DB) SaveRecipe(r *Recipe) {
 	// TODO: recompute the computed_food
 }
 
-// func (db *DB) AddIngredientToRecipe(r Recipe, i *Ingredient) {
-// 	result, err := db.DB.NamedExec(`
-// 		insert into ingredients
-// 	`, ingr)
-// }
-
 func (db *DB) GetRecipeByID(id RecipeID) (ret Recipe, err error) {
 	err = db.DB.Get(&ret, `
 		select rowid, name, blurb, instructions
@@ -89,12 +83,13 @@ func (db *DB) GetRecipeByID(id RecipeID) (ret Recipe, err error) {
 	     where rowid = ?
 	`, id)
 	if err != nil {
-		return Recipe{}, err
+		return Recipe{}, fmt.Errorf("fetching recipe with ID %d: %w", id, err)
 	}
 
 	// Load the ingredients
 	err = db.DB.Select(&ret.Ingredients, `
-		select food_id, recipe_id, quantity_numerator, quantity_denominator, units, list_order, is_hidden
+		select rowid, ifnull(food_id, 0) food_id, ifnull(recipe_id, 0) recipe_id, quantity_numerator, quantity_denominator, units,
+		       in_recipe_id, list_order, is_hidden
 		  from ingredients
 	     where in_recipe_id = ?
 	     order by list_order asc

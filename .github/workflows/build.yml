@@ -1,0 +1,90 @@
+name: Build
+
+on:
+  push:
+    branches: ["*"]   # Any branch
+    tags: ["v*.*.*"]  # Release tags
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: "1.22"
+
+      - name: Install dependencies
+        run: |
+          go mod download
+          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.59.1
+
+      - name: Lint
+        run: golangci-lint run
+
+      - name: Validate SQL schema
+        run: |
+          sqlite3 whatever.db < pkg/db/schema.sql
+
+      - name: Run tests
+        run: |
+          mkdir -p sample_data
+          go test ./...
+
+  release:
+    runs-on: ubuntu-latest
+    needs: build # Only run if build is successful
+    if: startsWith(github.ref, 'refs/tags/v')
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: "1.22"
+
+      - name: Install dependencies
+        run: |
+          go mod download
+          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.59.1
+
+      - name: Install musl
+        run: |
+          sudo apt update
+          sudo apt install -y musl-tools musl-dev
+
+      - name: Compile with musl
+        env:
+          CC: musl-gcc  # Use musl-gcc as the C compiler
+          GOOS: linux
+          CGO_ENABLED: 1
+          GOARCH: amd64
+        run: |
+          go build -v -ldflags '-s -w -linkmode external -extldflags "-static"' -o azm ./cmd
+
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}  # The tag that triggered the workflow
+          release_name: Release ${{ github.ref_name }}  # Name of the release
+          draft: true  # Set to true if you want to create a draft release
+          prerelease: true  # Set to true if it's a prerelease
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Release Assets
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}  # URL to upload assets
+          asset_path: azm  # Path to your built artifact(s)
+          asset_name: azm  # Name of the asset
+          asset_content_type: application/octet-stream
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

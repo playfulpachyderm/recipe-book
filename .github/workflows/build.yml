@@ -32,7 +32,7 @@ jobs:
 
       - name: Run tests
         run: |
-          mkdir -p sample_data
+          mkdir -p sample_data/data
           go test ./...
 
   release:

@@ -18,6 +18,8 @@ type Ingredient struct {
 	InRecipeID RecipeID `db:"in_recipe_id"`
 	ListOrder  int64    `db:"list_order"`
 	IsHidden   bool     `db:"is_hidden"`
+
+	Food *Food
 }
 
 // // Format as string
@@ -84,4 +86,8 @@ func (db *DB) DeleteIngredient(i Ingredient) {
 	if count != 1 {
 		panic(fmt.Errorf("tried to delete ingredient with ID (%d) but it doesn't exist", i.ID))
 	}
+}
+
+func (i Ingredient) Quantity() float32 {
+	return float32(i.QuantityNumerator) / float32(i.QuantityDenominator)
 }

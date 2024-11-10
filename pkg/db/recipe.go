@@ -94,5 +94,51 @@ func (db *DB) GetRecipeByID(id RecipeID) (ret Recipe, err error) {
 	     where in_recipe_id = ?
 	     order by list_order asc
     `, id)
+	if err != nil {
+		panic(err)
+	}
+	for i := range ret.Ingredients {
+		var food Food
+		if ret.Ingredients[i].FoodID != FoodID(0) {
+			// ingredient is a food
+			food, err = db.GetFoodByID(ret.Ingredients[i].FoodID)
+			ret.Ingredients[i].Food = &food
+		} else {
+			// ingredient is a food; i.Food is the ComputedFood of the Recipe
+			var computed_food_id FoodID
+			err = db.DB.Get(&computed_food_id, `select computed_food_id from recipes where rowid = ?`, ret.Ingredients[i].RecipeID)
+			if err != nil {
+				panic(err)
+			}
+			food, err = db.GetFoodByID(computed_food_id)
+			ret.Ingredients[i].Food = &food
+		}
+		if err != nil {
+			panic(err)
+		}
+	}
 	return
+}
+
+func (r Recipe) ComputeFood() Food {
+	ret := Food{}
+	for _, ingr := range r.Ingredients {
+		ret.Cals += ingr.Quantity() * ingr.Food.Cals
+		ret.Carbs += ingr.Quantity() * ingr.Food.Carbs
+		ret.Protein += ingr.Quantity() * ingr.Food.Protein
+		ret.Fat += ingr.Quantity() * ingr.Food.Fat
+		ret.Sugar += ingr.Quantity() * ingr.Food.Sugar
+		ret.Alcohol += ingr.Quantity() * ingr.Food.Alcohol
+		ret.Water += ingr.Quantity() * ingr.Food.Water
+		ret.Potassium += ingr.Quantity() * ingr.Food.Potassium
+		ret.Calcium += ingr.Quantity() * ingr.Food.Calcium
+		ret.Sodium += ingr.Quantity() * ingr.Food.Sodium
+		ret.Magnesium += ingr.Quantity() * ingr.Food.Magnesium
+		ret.Phosphorus += ingr.Quantity() * ingr.Food.Phosphorus
+		ret.Iron += ingr.Quantity() * ingr.Food.Iron
+		ret.Zinc += ingr.Quantity() * ingr.Food.Zinc
+		ret.Mass += ingr.Quantity() * ingr.Food.Mass
+		ret.Price += ingr.Quantity() * ingr.Food.Price
+	}
+	return ret
 }

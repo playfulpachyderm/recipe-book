@@ -12,7 +12,7 @@ type Ingredient struct {
 	RecipeID RecipeID     `db:"recipe_id"`
 
 	Quantity float32
-	Units    UnitsID `db:"units"`
+	Units    Units `db:"units"`
 
 	InRecipeID RecipeID `db:"in_recipe_id"`
 	ListOrder  int64    `db:"list_order"`
@@ -21,10 +21,10 @@ type Ingredient struct {
 	Food *Food
 }
 
-// // Format as string
-// func (i Ingredient) String() string {
-// 	return fmt.Sprintf("%s(%d)", f.Name, f.ID)
-// }
+// Format as string
+func (i Ingredient) String() string {
+	return fmt.Sprintf("%f%s %s", i.Quantity, i.Units.Abbreviation(), i.Food.Name)
+}
 
 func (db *DB) SaveIngredient(i *Ingredient) {
 	if i.ID == IngredientID(0) {
@@ -83,4 +83,6 @@ func (db *DB) DeleteIngredient(i Ingredient) {
 		panic(fmt.Errorf("tried to delete ingredient with ID (%d) but it doesn't exist", i.ID))
 	}
 }
+// func (i Ingredient) AddTo(r *Recipe) {
 
+// }

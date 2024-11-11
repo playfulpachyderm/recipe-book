@@ -42,7 +42,7 @@ create table foods (rowid integer primary key,
 
     mass real not null default 100,
     price real not null default 0,
-    density real not null default -1,
+    density real not null default 1,
     cook_ratio real not null default 1
 ) strict;
 

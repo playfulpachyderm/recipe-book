@@ -24,13 +24,7 @@ func TestSaveAndLoadIngredient(t *testing.T) {
 		},
 	}
 	db.SaveRecipe(&recipe)
-	food := Food{
-		Name:    "a food",
-		Cals:    10,
-		Carbs:   1,
-		Protein: 2,
-	}
-	db.SaveFood(&food)
+	food := get_food(db, 1) // whatever, doesn't matter
 
 	// Create an ingredient on the recipe
 	ingr := Ingredient{

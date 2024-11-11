@@ -11,7 +11,7 @@ insert into db_version values(0);
 
 create table food_types (rowid integer primary key,
     name text not null unique check(length(name) != 0)
-);
+) strict;
 insert into food_types (name) values
     ('grocery'),
     ('recipe'),
@@ -51,7 +51,7 @@ create table units (rowid integer primary key,
     name text not null unique check(length(name) != 0),
     abbreviation text not null unique check(length(abbreviation) != 0)
     -- is_metric integer not null check(is_metric in (0, 1))
-);
+) strict;
 insert into units(rowid, name, abbreviation) values
     -- Count
     (1, 'count', 'ct'),
@@ -75,8 +75,7 @@ create table ingredients (rowid integer primary key,
     recipe_id integer references recipes(rowid),
 
     -- Portion size (rational numbers)
-    quantity_numerator integer not null default 1,
-    quantity_denominator integer not null default 1,
+    quantity real not null default 1,
     units integer not null default 0, -- Display purposes only
 
     in_recipe_id integer references recipes(rowid) on delete cascade not null,

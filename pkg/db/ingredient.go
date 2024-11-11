@@ -11,9 +11,8 @@ type Ingredient struct {
 	FoodID   FoodID       `db:"food_id"`
 	RecipeID RecipeID     `db:"recipe_id"`
 
-	QuantityNumerator   int64   `db:"quantity_numerator"`
-	QuantityDenominator int64   `db:"quantity_denominator"`
-	Units               UnitsID `db:"units"`
+	Quantity float32
+	Units    UnitsID `db:"units"`
 
 	InRecipeID RecipeID `db:"in_recipe_id"`
 	ListOrder  int64    `db:"list_order"`
@@ -29,12 +28,11 @@ type Ingredient struct {
 
 func (db *DB) SaveIngredient(i *Ingredient) {
 	if i.ID == IngredientID(0) {
-		println("creating---------")
 		// Do create
 		result, err := db.DB.NamedExec(`
 			insert into ingredients
-			            (food_id, recipe_id, quantity_numerator, quantity_denominator, units, in_recipe_id, list_order, is_hidden)
-			     values (nullif(:food_id, 0), nullif(:recipe_id, 0), :quantity_numerator, :quantity_denominator, :units, :in_recipe_id,
+			            (food_id, recipe_id, quantity, units, in_recipe_id, list_order, is_hidden)
+			     values (nullif(:food_id, 0), nullif(:recipe_id, 0), :quantity, :units, :in_recipe_id,
 			                :list_order, :is_hidden)
 		`, i)
 		if err != nil {
@@ -48,14 +46,12 @@ func (db *DB) SaveIngredient(i *Ingredient) {
 		}
 		i.ID = IngredientID(id)
 	} else {
-		println("updating---------")
 		// Do update
 		result, err := db.DB.NamedExec(`
 			update ingredients
 			   set food_id=nullif(:food_id, 0),
 			       recipe_id=nullif(:recipe_id, 0),
-			       quantity_numerator=:quantity_numerator,
-			       quantity_denominator=:quantity_denominator,
+			       quantity=:quantity,
 			       units=:units,
 			       list_order=:list_order,
 			       is_hidden=:is_hidden
@@ -88,6 +84,3 @@ func (db *DB) DeleteIngredient(i Ingredient) {
 	}
 }
 
-func (i Ingredient) Quantity() float32 {
-	return float32(i.QuantityNumerator) / float32(i.QuantityDenominator)
-}

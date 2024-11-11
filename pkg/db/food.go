@@ -27,7 +27,7 @@ type Food struct {
 	Iron       float32 `db:"iron"`
 	Zinc       float32 `db:"zinc"`
 
-	Mass      float32 `db:"mass"`
+	Mass      float32 `db:"mass"` // In grams
 	Price     float32 `db:"price"`
 	Density   float32 `db:"density"`
 	CookRatio float32 `db:"cook_ratio"`

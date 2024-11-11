@@ -49,8 +49,8 @@ func TestRecipeComputeFood(t *testing.T) {
 	f2 := Food{0, "", 16.5, 15.5, 14.5, 13.5, 12.5, 11.5, 10.5, 9.5, 8.5, 7.5, 6.5, 5.5, 4.5, 3.5, 2.5, 1.5, 0, 0}
 
 	recipe := Recipe{Ingredients: []Ingredient{
-		{QuantityNumerator: 1, QuantityDenominator: 1, Food: &f1},
-		{QuantityNumerator: 1, QuantityDenominator: 1, Food: &f2},
+		{Quantity: 1, Food: &f1},
+		{Quantity: 1, Food: &f2},
 	}}
 	computed_food := recipe.ComputeFood()
 	assert.Equal(computed_food.Cals, float32(17.5))
@@ -71,8 +71,8 @@ func TestRecipeComputeFood(t *testing.T) {
 	assert.Equal(computed_food.Price, float32(17.5))
 
 	recipe2 := Recipe{Ingredients: []Ingredient{
-		{QuantityNumerator: 3, QuantityDenominator: 2, Food: &f1},
-		{QuantityNumerator: 1, QuantityDenominator: 2, Food: &f2},
+		{Quantity: 1.5, Food: &f1},
+		{Quantity: 0.5, Food: &f2},
 	}}
 	computed_food2 := recipe2.ComputeFood()
 	assert.Equal(computed_food2.Cals, float32(9.75))

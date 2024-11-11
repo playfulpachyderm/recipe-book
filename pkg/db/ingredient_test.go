@@ -28,13 +28,12 @@ func TestSaveAndLoadIngredient(t *testing.T) {
 
 	// Create an ingredient on the recipe
 	ingr := Ingredient{
-		FoodID:              food.ID,
-		Food:                &food,
-		QuantityNumerator:   3,
-		QuantityDenominator: 2,
-		Units:               1, // count
-		InRecipeID:          recipe.ID,
-		ListOrder:           0,
+		FoodID:     food.ID,
+		Food:       &food,
+		Quantity:   1.5,
+		Units:      1, // count
+		InRecipeID: recipe.ID,
+		ListOrder:  0,
 	}
 	assert.Equal(ingr.ID, IngredientID(0))
 	db.SaveIngredient(&ingr)
@@ -50,8 +49,7 @@ func TestSaveAndLoadIngredient(t *testing.T) {
 	}
 
 	// Modify the ingredient
-	ingr.QuantityNumerator = 5
-	ingr.QuantityDenominator = 4
+	ingr.Quantity = 1.25
 	ingr.Units = 2
 
 	// Save it and reload the recipe

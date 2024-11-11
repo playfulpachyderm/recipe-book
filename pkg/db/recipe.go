@@ -88,7 +88,7 @@ func (db *DB) GetRecipeByID(id RecipeID) (ret Recipe, err error) {
 
 	// Load the ingredients
 	err = db.DB.Select(&ret.Ingredients, `
-		select rowid, ifnull(food_id, 0) food_id, ifnull(recipe_id, 0) recipe_id, quantity_numerator, quantity_denominator, units,
+		select rowid, ifnull(food_id, 0) food_id, ifnull(recipe_id, 0) recipe_id, quantity, units,
 		       in_recipe_id, list_order, is_hidden
 		  from ingredients
 	     where in_recipe_id = ?
@@ -123,22 +123,22 @@ func (db *DB) GetRecipeByID(id RecipeID) (ret Recipe, err error) {
 func (r Recipe) ComputeFood() Food {
 	ret := Food{}
 	for _, ingr := range r.Ingredients {
-		ret.Cals += ingr.Quantity() * ingr.Food.Cals
-		ret.Carbs += ingr.Quantity() * ingr.Food.Carbs
-		ret.Protein += ingr.Quantity() * ingr.Food.Protein
-		ret.Fat += ingr.Quantity() * ingr.Food.Fat
-		ret.Sugar += ingr.Quantity() * ingr.Food.Sugar
-		ret.Alcohol += ingr.Quantity() * ingr.Food.Alcohol
-		ret.Water += ingr.Quantity() * ingr.Food.Water
-		ret.Potassium += ingr.Quantity() * ingr.Food.Potassium
-		ret.Calcium += ingr.Quantity() * ingr.Food.Calcium
-		ret.Sodium += ingr.Quantity() * ingr.Food.Sodium
-		ret.Magnesium += ingr.Quantity() * ingr.Food.Magnesium
-		ret.Phosphorus += ingr.Quantity() * ingr.Food.Phosphorus
-		ret.Iron += ingr.Quantity() * ingr.Food.Iron
-		ret.Zinc += ingr.Quantity() * ingr.Food.Zinc
-		ret.Mass += ingr.Quantity() * ingr.Food.Mass
-		ret.Price += ingr.Quantity() * ingr.Food.Price
+		ret.Cals += ingr.Quantity * ingr.Food.Cals
+		ret.Carbs += ingr.Quantity * ingr.Food.Carbs
+		ret.Protein += ingr.Quantity * ingr.Food.Protein
+		ret.Fat += ingr.Quantity * ingr.Food.Fat
+		ret.Sugar += ingr.Quantity * ingr.Food.Sugar
+		ret.Alcohol += ingr.Quantity * ingr.Food.Alcohol
+		ret.Water += ingr.Quantity * ingr.Food.Water
+		ret.Potassium += ingr.Quantity * ingr.Food.Potassium
+		ret.Calcium += ingr.Quantity * ingr.Food.Calcium
+		ret.Sodium += ingr.Quantity * ingr.Food.Sodium
+		ret.Magnesium += ingr.Quantity * ingr.Food.Magnesium
+		ret.Phosphorus += ingr.Quantity * ingr.Food.Phosphorus
+		ret.Iron += ingr.Quantity * ingr.Food.Iron
+		ret.Zinc += ingr.Quantity * ingr.Food.Zinc
+		ret.Mass += ingr.Quantity * ingr.Food.Mass
+		ret.Price += ingr.Quantity * ingr.Food.Price
 	}
 	return ret
 }

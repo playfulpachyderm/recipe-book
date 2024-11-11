@@ -20,9 +20,6 @@ insert into food_types (name) values
 create table foods (rowid integer primary key,
     name text not null check(length(name) != 0),
 
-    -- created_at integer not null,
-    -- updated_at integer,
-
     cals real not null,
     carbs real not null,
     protein real not null,
@@ -68,13 +65,9 @@ insert into units(rowid, name, abbreviation) values
 
 
 create table ingredients (rowid integer primary key,
-    -- created_at integer not null,
-    -- updated_at integer,
-
     food_id integer references foods(rowid),
     recipe_id integer references recipes(rowid),
 
-    -- Portion size (rational numbers)
     quantity real not null default 1,
     units integer not null default 0, -- Display purposes only
 
@@ -86,20 +79,14 @@ create table ingredients (rowid integer primary key,
 ) strict;
 
 create table recipes (rowid integer primary key,
-    -- created_at integer not null,
-    -- updated_at integer,
-
     name text not null check(length(name) != 0),
     blurb text not null,
-    instructions text not null
+    instructions text not null,
 
-    -- computed_food_id integer references foods(rowid) not null
+    computed_food_id integer references foods(rowid) not null
 ) strict;
 
 create table iterations (rowid integer primary key,
-    -- created_at integer not null,
-    -- updated_at integer,
-
     original_recipe_id integer references recipes(rowid),
     -- original_author integer not null, -- For azimuth integration
     derived_recipe_id integer references recipes(rowid),
@@ -107,9 +94,6 @@ create table iterations (rowid integer primary key,
 ) strict;
 
 create table daily_logs (rowid integer primary key,
-    -- created_at integer not null,
-    -- updated_at integer,
-
     date integer not null unique,
 
     computed_food_id integer references foods(rowid) not null

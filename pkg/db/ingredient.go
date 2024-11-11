@@ -18,7 +18,7 @@ type Ingredient struct {
 	ListOrder  int64    `db:"list_order"`
 	IsHidden   bool     `db:"is_hidden"`
 
-	Food *Food
+	Food Food
 }
 
 // Format as string
@@ -83,6 +83,7 @@ func (db *DB) DeleteIngredient(i Ingredient) {
 		panic(fmt.Errorf("tried to delete ingredient with ID (%d) but it doesn't exist", i.ID))
 	}
 }
+
 // func (i Ingredient) AddTo(r *Recipe) {
 
 // }

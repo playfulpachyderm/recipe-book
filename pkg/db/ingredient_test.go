@@ -29,7 +29,7 @@ func TestSaveAndLoadIngredient(t *testing.T) {
 	// Create an ingredient on the recipe
 	ingr := Ingredient{
 		FoodID:     food.ID,
-		Food:       &food,
+		Food:       food,
 		Quantity:   1.5,
 		Units:      1, // count
 		InRecipeID: recipe.ID,

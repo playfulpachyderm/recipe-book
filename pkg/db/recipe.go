@@ -36,16 +36,23 @@ type Recipe struct {
 	ComputedFoodID FoodID `db:"computed_food_id"`
 }
 
+// Save the recipe.  New recipes will have their ID back-filled from the DB.
+//
+// Automatically updates the computed food, creating one if it's a new recipe and back-filling the
+// `computed_food_id` foreign key to it.
 func (db *DB) SaveRecipe(r *Recipe) {
 	if r.ID == RecipeID(0) {
 		// Do create
+
+		// Create the computed food
+		computed_food := Food{Name: r.Name}
+		db.SaveFood(&computed_food)
+		r.ComputedFoodID = computed_food.ID
+
+		// Create the recipe
 		result, err := db.DB.NamedExec(`
-			insert into recipes (name, blurb, instructions)
-	                     values (:name, :blurb, :instructions)
-	                on conflict do update
-	                        set name=:name,
-	                            blurb=:blurb,
-	                            instructions=:instructions
+			insert into recipes (name, blurb, instructions, computed_food_id)
+	                     values (:name, :blurb, :instructions, :computed_food_id)
 		`, r)
 		if err != nil {
 			panic(err)
@@ -73,12 +80,18 @@ func (db *DB) SaveRecipe(r *Recipe) {
 			panic(fmt.Errorf("Got recipe with ID (%d), so attempted update, but it doesn't exist", r.ID))
 		}
 	}
-	// TODO: recompute the computed_food
+	for i := range r.Ingredients {
+		r.Ingredients[i].InRecipeID = r.ID
+		db.SaveIngredient(&r.Ingredients[i])
+	}
+	// Update the computed food
+	computed_food := r.ComputeFood()
+	db.SaveFood(&computed_food)
 }
 
 func (db *DB) GetRecipeByID(id RecipeID) (ret Recipe, err error) {
 	err = db.DB.Get(&ret, `
-		select rowid, name, blurb, instructions
+		select rowid, name, blurb, instructions, computed_food_id
 	      from recipes
 	     where rowid = ?
 	`, id)
@@ -98,11 +111,9 @@ func (db *DB) GetRecipeByID(id RecipeID) (ret Recipe, err error) {
 		panic(err)
 	}
 	for i := range ret.Ingredients {
-		var food Food
 		if ret.Ingredients[i].FoodID != FoodID(0) {
 			// ingredient is a food
-			food, err = db.GetFoodByID(ret.Ingredients[i].FoodID)
-			ret.Ingredients[i].Food = &food
+			ret.Ingredients[i].Food, err = db.GetFoodByID(ret.Ingredients[i].FoodID)
 		} else {
 			// ingredient is a food; i.Food is the ComputedFood of the Recipe
 			var computed_food_id FoodID
@@ -110,8 +121,7 @@ func (db *DB) GetRecipeByID(id RecipeID) (ret Recipe, err error) {
 			if err != nil {
 				panic(err)
 			}
-			food, err = db.GetFoodByID(computed_food_id)
-			ret.Ingredients[i].Food = &food
+			ret.Ingredients[i].Food, err = db.GetFoodByID(computed_food_id)
 		}
 		if err != nil {
 			panic(err)
@@ -121,7 +131,8 @@ func (db *DB) GetRecipeByID(id RecipeID) (ret Recipe, err error) {
 }
 
 func (r Recipe) ComputeFood() Food {
-	ret := Food{}
+	// If r.ComputedFoodID is 0, so should be the ID of returned Food
+	ret := Food{ID: r.ComputedFoodID, Name: r.Name}
 	for _, ingr := range r.Ingredients {
 		ret.Cals += ingr.Quantity * ingr.Food.Cals
 		ret.Carbs += ingr.Quantity * ingr.Food.Carbs

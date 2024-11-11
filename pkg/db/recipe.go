@@ -43,7 +43,6 @@ type Recipe struct {
 func (db *DB) SaveRecipe(r *Recipe) {
 	if r.ID == RecipeID(0) {
 		// Do create
-
 		// Create the computed food
 		computed_food := Food{Name: r.Name}
 		db.SaveFood(&computed_food)
@@ -82,6 +81,9 @@ func (db *DB) SaveRecipe(r *Recipe) {
 	}
 	for i := range r.Ingredients {
 		r.Ingredients[i].InRecipeID = r.ID
+		if r.Ingredients[i].ListOrder == 0 {
+			r.Ingredients[i].ListOrder = int64(i)
+		}
 		db.SaveIngredient(&r.Ingredients[i])
 	}
 	// Update the computed food

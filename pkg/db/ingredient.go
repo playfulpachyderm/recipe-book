@@ -83,7 +83,3 @@ func (db *DB) DeleteIngredient(i Ingredient) {
 		panic(fmt.Errorf("tried to delete ingredient with ID (%d) but it doesn't exist", i.ID))
 	}
 }
-
-// func (i Ingredient) AddTo(r *Recipe) {
-
-// }

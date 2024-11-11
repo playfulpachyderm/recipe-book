@@ -48,3 +48,29 @@ func (u Units) Of(f Food, n float32) Ingredient {
 		panic(u)
 	}
 }
+
+func (u Units) Portion(r Recipe, n float32) Ingredient {
+	f := r.ComputeFood()
+	switch u {
+	case COUNT:
+		return Ingredient{RecipeID: r.ID, Quantity: n, Units: u, Food: f}
+	case GRAMS:
+		return Ingredient{RecipeID: r.ID, Quantity: n / f.Mass, Units: u, Food: f}
+	case LBS:
+		return Ingredient{RecipeID: r.ID, Quantity: n * 454 / f.Mass, Units: u, Food: f}
+	case OZ:
+		return Ingredient{RecipeID: r.ID, Quantity: n * 28 / f.Mass, Units: u, Food: f}
+	case ML:
+		return Ingredient{RecipeID: r.ID, Quantity: n * f.Density / f.Mass, Units: u, Food: f}
+	case CUPS:
+		return Ingredient{RecipeID: r.ID, Quantity: n * f.Density * 250 / f.Mass, Units: u, Food: f}
+	case TSP:
+		return Ingredient{RecipeID: r.ID, Quantity: n * f.Density * 5 / f.Mass, Units: u, Food: f}
+	case TBSP:
+		return Ingredient{RecipeID: r.ID, Quantity: n * f.Density * 15 / f.Mass, Units: u, Food: f}
+	case FLOZ:
+		return Ingredient{RecipeID: r.ID, Quantity: n * f.Density * 30 / f.Mass, Units: u, Food: f}
+	default:
+		panic(u)
+	}
+}

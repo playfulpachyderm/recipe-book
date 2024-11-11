@@ -94,6 +94,14 @@ func TestRecipeComputeFood(t *testing.T) {
 	assert.Equal(computed_food2.Zinc, float32(22.75))
 	assert.Equal(computed_food2.Mass, float32(23.75))
 	assert.Equal(computed_food2.Price, float32(24.75))
+
+	// Combine recipes in a recipe
+	recipe3 := Recipe{Ingredients: []Ingredient{
+		COUNT.Portion(recipe, 2),
+		COUNT.Portion(recipe2, 1),
+	}}
+	computed_food3 := recipe3.ComputeFood()
+	assert.Equal(computed_food3.Cals, float32(44.75))
 }
 
 func TestRecipeSaveComputedFood(t *testing.T) {
@@ -116,6 +124,19 @@ func TestRecipeSaveComputedFood(t *testing.T) {
 	db.SaveRecipe(&recipe)
 	computed_food := get_food(db, recipe.ComputedFoodID)
 	if diff := deep.Equal(recipe.ComputeFood(), computed_food); diff != nil {
+		t.Error(diff)
+	}
+
+	// Test putting a recipe in a recipe
+	mozza := get_food(db, 83)
+	require.Equal(mozza.Name, "mozzarella")
+	recipe2 := Recipe{Name: "baked pasta w/ mozza", Ingredients: []Ingredient{
+		COUNT.Portion(recipe, 0.5),
+		GRAMS.Of(mozza, 300),
+	}}
+	db.SaveRecipe(&recipe2)
+	computed_food2 := get_food(db, recipe2.ComputedFoodID)
+	if diff := deep.Equal(recipe2.ComputeFood(), computed_food2); diff != nil {
 		t.Error(diff)
 	}
 }

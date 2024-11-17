@@ -1,3 +1,3 @@
 #!/bin/bash
 
-mount -t tmpfs -o size=100M tmpfs sample_data/data
+sudo mount -t tmpfs -o size=100M tmpfs sample_data/data

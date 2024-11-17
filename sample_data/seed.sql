@@ -1,3 +1,7 @@
+-- ==========
+-- Base foods
+-- ==========
+
 INSERT INTO foods (name,cals,carbs,protein,fat,sugar,alcohol,water,potassium,sodium,calcium,magnesium,phosphorus,iron,zinc,mass,price,density,cook_ratio) VALUES
     ('bread',289.0,56.0,12.0,2.0,3.0,0.0,0.0,0.1,0.381,0.151,0.023,0.099,0.0037,0.0007,100.0,44.0,1.0,1.0),
     ('oats',400.0,67.0,17.0,7.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,100.0,33.0,0.44,1.0),
@@ -107,12 +111,10 @@ INSERT INTO foods (name,cals,carbs,protein,fat,sugar,alcohol,water,potassium,sod
     ('frozen mixed veggies',71.0,13.0,3.5,0.0,3.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,100.0,27.0,1.0,1.0),
     ('canned olives',167.0,7.0,0.0,13.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,100.0,150.0,1.0,1.0),
     ('frozen peas',59.0,14.0,4.7,0.0,4.7,0.0,0.0,0.11,0.072,0.024,0.022,0.077,0.0035,0.0007,100.0,27.5,1.0,1.0),
-    ('pecan butter tarts',360.0,49.0,3.0,17.0,24.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,100.0,0.0,1.0,1.0),
     ('ravioli',220.0,23.0,14.0,8.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,100.0,119.0,1.0,1.0),
     ('panko',366.0,77.0,10.0,2.0,7.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,100.0,0.0,1.0,1.0),
     ('doritos',500.0,57.0,7.0,28.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,100.0,0.0,1.0,1.0),
     ('pepperoni',90.0,2.0,7.0,7.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,40.0,44.0,1.0,1.0),
-    ('kirkland croissants',300.0,30.0,6.0,17.0,4.0,0.0,0.0,0.05,0.36,0.04,0.01,0.051,0.0018,0.00032,69.0,50.0,1.0,1.0),
     ('bacon',190.0,1.0,5.0,18.0,0.0,0.0,0.0,0.08,0.24,0.0012,0.005,0.078,0.0002,0.0005,44.0,45.0,1.0,1.0),
     ('ketchup',133.0,33.0,2.0,0.0,27.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,100.0,0.0,1.0,1.0),
     ('ranch',467.0,7.0,3.0,53.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,100.0,0.0,1.0,1.0),
@@ -122,7 +124,7 @@ INSERT INTO foods (name,cals,carbs,protein,fat,sugar,alcohol,water,potassium,sod
     ('fries',320.0,41.0,3.4,15.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,100.0,0.0,1.0,1.0),
     ('salt',0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,40.0,0.0,0.0,0.0,0.0,0.0,100.0,17.0,2.2,1.0),
     ('KCL',0.0,0.0,0.0,0.0,0.0,0.0,0.0,52.4,0.0,0.0,0.0,0.0,0.0,0.0,100.0,176.0,1.0,1.0),
-    ('pepper',255.0,65.0,11.0,3.0,1.0,0.0,0.0,1.26,0.044,0.437,0.194,0.173,0.0289,0.0014,100.0,0.0,1.0,1.0),
+    ('black pepper',255.0,65.0,11.0,3.0,1.0,0.0,0.0,1.26,0.044,0.437,0.194,0.173,0.0289,0.0014,100.0,0.0,1.0,1.0),
     ('oregano',265.0,48.0,9.0,4.3,4.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,100.0,162.0,1.0,1.0),
     ('garlic powder',331.0,68.0,13.0,1.0,2.0,0.0,0.0,1.101,0.026,0.08,0.058,0.417,0.0027,0.0026,100.0,107.0,1.0,1.0),
     ('onion powder',347.0,75.0,10.0,1.0,35.0,0.0,0.0,0.943,0.053,0.363,0.122,0.34,0.0026,0.0023,100.0,152.0,1.0,1.0),
@@ -147,4 +149,37 @@ INSERT INTO foods (name,cals,carbs,protein,fat,sugar,alcohol,water,potassium,sod
     ('sage',315.0,40.0,11.0,13.0,2.0,0.0,0.0,1.07,0.011,1.652,0.428,0.0,0.028,0.0047,100.0,210.0,1.0,1.0),
     ('nutmeg',525.0,44.0,6.0,36.0,28.0,0.0,0.0,0.35,0.016,0.184,0.183,0.0,0.003,0.0021,100.0,246.0,1.0,1.0),
     ('turmeric',354.0,60.0,8.0,10.0,3.0,0.0,0.0,2.525,0.038,0.183,0.193,0.268,0.041,0.0043,100.0,0.0,1.0,1.0),
-    ('cloves',323.0,55.0,6.0,20.0,2.0,0.0,0.0,1.102,0.243,0.646,0.264,0.105,0.0087,0.0011,100.0,0.0,1.0,1.0);
+    ('cloves',323.0,55.0,6.0,20.0,2.0,0.0,0.0,1.102,0.243,0.646,0.264,0.105,0.0087,0.0011,100.0,0.0,1.0,1.0),
+    ('coffee', 0,0,0,0,0,0,100,0.047,0,0,0.003,0,0,0,100,0,1,1),
+    ('chicken broth', 0,0,0,0,0,0,100,0,0,0,0,0,0,0,100,0,1,1);
+
+
+-- =======
+-- Recipes
+-- =======
+
+insert into foods (rowid, name, cals,carbs,protein,fat,sugar,alcohol,water,potassium,sodium,calcium,magnesium,phosphorus,iron,zinc,mass,price,density,cook_ratio) values (10000, 'Chicken parmigiana soup', 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+insert into recipes (rowid, name, blurb, instructions, computed_food_id) values (1, 'Chicken parmigiana soup', 'This is a nice recipe which is basically what it sounds like: chicken parmigiana, but in soup form.  It''s easy to make, hard to mess up, and simply delicious.', replace('In large pot, heat butter and oil. Cook onions to 1/2 cooked (translucent and soft, starting to turn golden-brown)\aAdd garlic, cook 1-2 minutes\aadd tomatoes and chicken broth, bring to a simmer\asalt and season the soup, tasting until seasonings are right\acut chicken into bite-sized pieces, add to soup and boil until fully cooked\aadd pasta and boil until it is cooked "al dente"; add more stock as needed\aadd half the cheese and stir it into the soup\asprinkle remaining cheese on top and serve', '\a', char(31)), 10000);
+insert into ingredients(food_id, quantity, units, in_recipe_id, list_order) values
+    (28, 2, 1, 1, 0), -- 2 yellow onions
+    (78, 0.3, 2, 1, 1), -- 30g butter
+    (12, 0.3, 2, 1, 2), -- 30g olive oil
+    (32, 0.4, 2, 1, 3), -- 40g garlic
+    (105, 8, 5, 1, 4), -- 800mL canned tomatoes,
+    (62, 4.5, 2, 1, 5), -- 450g chicken breast
+    (3, 3, 2, 1, 6), -- 300g pasta
+    (83, 1.5, 2, 1, 7), -- 150g mozzarella
+    (86, 1.5, 2, 1, 8), -- 150g parmigiano
+    (120, 0.2, 2, 1, 9), -- 20g salt
+    (122, 0.02, 2, 1, 10), -- 2g pepper
+    (126, 0.05, 2, 1, 11), --5g chilis
+    (149, 10, 5, 1, 12); -- 1000mL chicken stock
+
+insert into foods (rowid, name, cals,carbs,protein,fat,sugar,alcohol,water,potassium,sodium,calcium,magnesium,phosphorus,iron,zinc,mass,price,density,cook_ratio) values (10001, 'Breakfast shake', 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+insert into recipes (rowid, name, blurb, instructions, computed_food_id) values (2, 'Breakfast shake', 'A quick breakfast-in-a-bottle you can have on the go', replace(replace('In shaker bottle, add milk, peanut butter, yogurt, *hot* coffee (in that order). Mix until the peanut butter is melted/dissolved\aKey point of previous step is to get the temperatures right:\n- Hot coffee will melt the shaker bottle or dissolve microplastics, so don''t add it directly\n- without hot coffee, peanut butter won''t dissolve\n- hot coffee will make whey protein curdle, so shake coffee with cold ingredients until it ends up warm-ish, then it''s safe to add whey\aOnce temperature has equilibrated between hot coffee and cold stuff, add whey protein, shake again, and drink', '\a', char(31)), '\n', char(10)), 10001);
+insert into ingredients(food_id, quantity, units, in_recipe_id, list_order) values
+    (10, 0.3, 2, 2, 0), -- 30g peanut butter
+    (69, 3.5, 5, 2, 1), -- 350mL skim milk
+    (81, 2.5, 6, 2, 2), -- 1 cup yogurt
+    (7, 0.4, 2, 2, 3), -- 1 cup yogurt
+    (148, 2, 5, 2, 4); -- 200 mL coffee

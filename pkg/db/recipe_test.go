@@ -140,3 +140,12 @@ func TestRecipeSaveComputedFood(t *testing.T) {
 		t.Error(diff)
 	}
 }
+
+// Should list all the recipes
+func TestListAllRecipes(t *testing.T) {
+	assert := assert.New(t)
+	db := get_test_db()
+
+	recipes := db.GetAllRecipes()
+	assert.True(len(recipes) >= 2)
+}

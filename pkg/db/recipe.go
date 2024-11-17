@@ -132,6 +132,15 @@ func (db *DB) GetRecipeByID(id RecipeID) (ret Recipe, err error) {
 	return
 }
 
+func (db *DB) GetAllRecipes() []Recipe {
+	var ret []Recipe
+	err := db.DB.Select(&ret, `select rowid, name, blurb, instructions, computed_food_id from recipes`)
+	if err != nil {
+		panic(err)
+	}
+	return ret
+}
+
 func (r Recipe) ComputeFood() Food {
 	// If r.ComputedFoodID is 0, so should be the ID of returned Food
 	ret := Food{ID: r.ComputedFoodID, Name: r.Name}

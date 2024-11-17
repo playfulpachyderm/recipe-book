@@ -103,3 +103,17 @@ func (db *DB) GetFoodByID(id FoodID) (ret Food, err error) {
 	`, id)
 	return
 }
+
+func (db *DB) GetAllBaseFoods() []Food {
+	var ret []Food
+	err := db.DB.Select(&ret, `
+		select rowid, name, cals, carbs, protein, fat, sugar, alcohol, water, potassium, calcium, sodium,
+			   magnesium, phosphorus, iron, zinc, mass, price, density, cook_ratio
+		  from foods
+		 where rowid not in (select computed_food_id from recipes)
+	`)
+	if err != nil {
+		panic(err)
+	}
+	return ret
+}

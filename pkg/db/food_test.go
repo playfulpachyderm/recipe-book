@@ -70,3 +70,15 @@ func TestFoodSaveAndLoad(t *testing.T) {
 		t.Error(diff)
 	}
 }
+
+// Should list all the base foods (i.e., ones that aren't recipes)
+func TestListAllBaseFoods(t *testing.T) {
+	assert := assert.New(t)
+	db := get_test_db()
+
+	base_foods := db.GetAllBaseFoods()
+	assert.True(len(base_foods) >= 100)
+	for _, f := range base_foods {
+		assert.NotContains([]FoodID{10000, 10001}, f.ID, f) // Computed foods have ID >= 10000 in seed data
+	}
+}

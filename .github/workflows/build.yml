@@ -27,8 +27,7 @@ jobs:
         run: golangci-lint run
 
       - name: Validate SQL schema
-        run: |
-          sqlite3 whatever.db < pkg/db/schema.sql
+        uses: playfulpachyderm/sqlite-lint@v0.0.1
 
       - name: Run tests
         run: |

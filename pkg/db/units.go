@@ -3,7 +3,7 @@ package db
 type Units uint64
 
 const (
-	COUNT = Units(iota + 1)
+	COUNT = Units(iota + 1) // Start at 1 to match SQLite ID column
 	GRAMS
 	LBS
 	OZ
@@ -15,7 +15,7 @@ const (
 )
 
 var names = []string{"", "count", "grams", "pounds", "ounces", "milliliters", "cups", "teaspoons", "tablespoons", "fluid ounces"}
-var abbreviations = []string{"", "ct", "g", "lbs", "oz", "mL", "cups", "tsp", "tbsp", "fl-oz"}
+var abbreviations = []string{"", "", "g", "lbs", "oz", "mL", "cups", "tsp", "tbsp", "fl-oz"}
 
 func (u Units) Name() string {
 	return names[u]

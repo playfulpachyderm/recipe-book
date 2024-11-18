@@ -68,3 +68,24 @@ func TestSaveAndLoadIngredient(t *testing.T) {
 	assert.NoError(err)
 	require.Len(new_recipe.Ingredients, 0)
 }
+
+func TestDisplayAmount(t *testing.T) {
+	assert := assert.New(t)
+	db := get_test_db()
+	onion := get_food(db, 28)
+
+	test_cases := []struct {
+		Ingredient
+		Expected string
+	}{
+		{Ingredient{Quantity: 1, Units: COUNT, Food: onion}, "1"},
+		{Ingredient{Quantity: 2, Units: COUNT, Food: onion}, "2"},
+		{Ingredient{Quantity: 1.818, Units: GRAMS, Food: onion}, "400 g"},
+		{Ingredient{Quantity: 9, Units: LBS, Food: onion}, "4 lbs"},
+		{Ingredient{Quantity: 2, Units: ML, Food: onion}, "440 mL"},
+	}
+
+	for _, tc := range test_cases {
+		assert.Equal(tc.Ingredient.DisplayAmount(), tc.Expected)
+	}
+}

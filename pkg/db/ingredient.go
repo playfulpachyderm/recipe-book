@@ -2,6 +2,8 @@ package db
 
 import (
 	"fmt"
+	"math"
+	"strings"
 )
 
 type IngredientID uint64
@@ -82,4 +84,31 @@ func (db *DB) DeleteIngredient(i Ingredient) {
 	if count != 1 {
 		panic(fmt.Errorf("tried to delete ingredient with ID (%d) but it doesn't exist", i.ID))
 	}
+}
+
+func (i Ingredient) DisplayAmount() string {
+	var f float32
+	switch i.Units {
+	case COUNT:
+		f = i.Quantity
+	case GRAMS:
+		f = i.Quantity * i.Food.Mass
+	case LBS:
+		f = i.Quantity * i.Food.Mass / 454
+	case OZ:
+		f = i.Quantity * i.Food.Mass / 28
+	case ML:
+		f = i.Quantity * i.Food.Mass / i.Food.Density
+	case CUPS:
+		f = i.Quantity * i.Food.Mass / i.Food.Density / 250
+	case TSP:
+		f = i.Quantity * i.Food.Mass / i.Food.Density / 5
+	case TBSP:
+		f = i.Quantity * i.Food.Mass / i.Food.Density / 15
+	case FLOZ:
+		f = i.Quantity * i.Food.Mass / i.Food.Density / 30
+	default:
+		panic(i)
+	}
+	return strings.TrimSpace(fmt.Sprintf("%d %s", int(math.Round(float64(f))), i.Units.Abbreviation()))
 }

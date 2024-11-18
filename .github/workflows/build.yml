@@ -28,6 +28,8 @@ jobs:
 
       - name: Validate SQL schema
         uses: playfulpachyderm/sqlite-lint@v0.0.1
+        with:
+          schema-file: pkg/db/schema.sql
 
       - name: Run tests
         run: |

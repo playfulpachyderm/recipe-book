@@ -5,7 +5,7 @@ PRAGMA foreign_keys = on;
 -- =======
 
 create table db_version (
-    version integer not null
+    version integer primary key
 ) strict;
 insert into db_version values(0);
 
@@ -93,8 +93,7 @@ create table iterations (rowid integer primary key,
     unique(derived_recipe_id)
 ) strict;
 
-create table daily_logs (rowid integer primary key,
-    date integer not null unique,
-
-    computed_food_id integer references foods(rowid) not null
-);
+-- create table daily_logs (
+--     date integer not null unique,
+--     computed_food_id integer references foods(rowid) not null
+-- );

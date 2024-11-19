@@ -1,0 +1,26 @@
+package pages
+
+import (
+	"fmt"
+
+	. "recipe_book/pkg/db"
+)
+
+templ RecipesIndex(recipes []Recipe) {
+	<h1>Recipes</h1>
+	<dialog id="newRecipeDialog">
+    <h3>Create new recipe</h3>
+    <form hx-post="/recipes" hx-ext="json-enc" hx-target="body" hx-push-url="true">
+      <label for="name">Name</label>
+      <input name="name" />
+      <input type="submit" value="Create" />
+    </form>
+    <button onclick="newRecipeDialog.close()">Cancel</button>
+	</dialog>
+	<button class="new-item-button" onclick="newRecipeDialog.showModal()">New Recipe</button>
+	<ul>
+		for _, r := range recipes {
+			<li><a hx-post={ fmt.Sprintf("/recipes/%d", r.ID) } hx-target="body" hx-push-url="true">{ r.Name }</a></li>
+		}
+	</ul>
+}

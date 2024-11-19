@@ -1,0 +1,29 @@
+Questions:
+- should recipes have a reference to a food with its computed nutrition?
+    - or the other way around-- store a
+- how should ingredients-that-are-recipes be linked to recipes?
+
+
+
+
+Options:
+1.  - ingredients just store a food_id
+    - foods store an optional recipe_id
+
+    Problems:
+      - all recipes have to have an associated food entry
+      - foods have to have a recipe_id-- shouldn't this be the other way around?
+
+2.  - ingredients just store a food_id
+    - recipes store a food_id
+
+    Problems:
+      - all recipes have to have an associated food entry
+      - can't tell which ingredients are recipes without doing an indexed search
+
+
+3.  - ingredients store a food_id and a recipe_id, only one is valid
+    Implications: recipes and foods can be connected in any way
+
+    Problems:
+      - joining is more complicated

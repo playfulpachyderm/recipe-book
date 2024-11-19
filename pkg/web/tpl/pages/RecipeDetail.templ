@@ -1,0 +1,86 @@
+package pages
+
+import (
+	"fmt"
+	"strings"
+
+	. "recipe_book/pkg/db"
+)
+
+func to_food_list(r Recipe) []Food {
+	ret := make([]Food, len(r.Ingredients))
+	for i := range r.Ingredients {
+		ret[i] = r.Ingredients[i].Food
+	}
+	return ret
+}
+
+templ RecipeDetail(recipe Recipe) {
+	<h1>{ recipe.Name }</h1>
+	<dialog id="renameRecipeDialog">
+		<h3>Rename recipe</h3>
+		<form hx-post={ fmt.Sprintf("/recipes/%d", recipe.ID) } hx-ext="json-enc" hx-target="body" hx-push-url="true">
+			<label for="name">New name:</label>
+			<input name="name" />
+			<input type="submit" value="Update" />
+		</form>
+		<button onclick="renameRecipeDialog.close()">Cancel</button>
+	</dialog>
+	<button class="new-item-button" onclick="renameRecipeDialog.showModal()">Rename</button>
+
+	<table class="recipe-table">
+		<thead>
+			<th></th>
+			<th>Amount</th>
+			<th>Ingredient</th>
+			<th>Calories</th>
+			<th>Carbs</th>
+			<th>Protein</th>
+			<th>Fat</th>
+			<th>Sugar</th>
+		</thead>
+		<tbody>
+			for _, i := range recipe.Ingredients {
+				<tr>
+					<td class="delete-button"></td>
+					<td class="amount">{ i.DisplayAmount() }</td>
+					<td class="name">{ i.Food.Name }</td>
+					<td class="cals">{ fmt.Sprint(int(i.Food.Cals * i.Quantity)) }</td>
+					<td class="carbs">{ fmt.Sprint(int(i.Food.Carbs * i.Quantity)) }</td>
+					<td class="protein">{ fmt.Sprint(int(i.Food.Protein * i.Quantity)) }</td>
+					<td class="fat">{ fmt.Sprint(int(i.Food.Fat * i.Quantity)) }</td>
+					<td class="sugar">{ fmt.Sprint(int(i.Food.Sugar * i.Quantity)) }</td>
+				</tr>
+			}
+			{{ computed_food := recipe.ComputeFood() }}
+			<tr class="recipe-table__total-row">
+				<td class="delete-button"></td>
+				<td class="amount"></td>
+				<td class="name">Total</td>
+				<td class="cals">{ fmt.Sprint(int(computed_food.Cals)) }</td>
+				<td class="carbs">{ fmt.Sprint(int(computed_food.Carbs)) }</td>
+				<td class="protein">{ fmt.Sprint(int(computed_food.Protein)) }</td>
+				<td class="fat">{ fmt.Sprint(int(computed_food.Fat)) }</td>
+				<td class="sugar">{ fmt.Sprint(int(computed_food.Sugar)) }</td>
+			</tr>
+		</tbody>
+	</table>
+
+	if recipe.Blurb != "" {
+		<h2>Blurb</h2>
+		for _, line := range strings.Split(recipe.Blurb, "\n") {
+			<p><i>{ line }</i></p>
+		}
+	}
+
+	<h2>Instructions</h2>
+	<ol class="instructions-list">
+		for _, instr := range recipe.Instructions {
+			<li>
+				for _, line := range strings.Split(instr, "\n") {
+					<p>{ line }</p>
+				}
+			</li>
+		}
+	</ol>
+}

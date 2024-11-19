@@ -1,0 +1,43 @@
+package pages
+
+import (
+	"fmt"
+
+	. "recipe_book/pkg/db"
+)
+
+templ IngredientsIndex(foods []Food) {
+	<h1>Ingredients</h1>
+	<dialog id="newIngredientDialog">
+		<h3>Create new ingredient</h3>
+		<form hx-post="/ingredients" hx-ext="json-enc" hx-target="body" hx-push-url="true">
+			<label for="name">Name</label>
+			<input name="name" />
+			<input type="submit" value="Create" />
+		</form>
+		<button onclick="newIngredientDialog.close()">Cancel</button>
+	</dialog>
+	<button class=".new-item-button" onclick="newIngredientDialog.showModal()">New Ingredient</button>
+	<table>
+		<thead>
+			<th>Name</th>
+			<th>Cals</th>
+			<th>Carbs</th>
+			<th>Protein</th>
+			<th>Fat</th>
+			<th>Sugar</th>
+		</thead>
+		<tbody>
+			for _, f := range foods {
+				<tr>
+					<td><a href={ templ.URL(fmt.Sprintf("/ingredients/%d", f.ID)) } hx-boost="true">{ f.Name }</a></td>
+					<td>{ fmt.Sprint(f.Cals) }</td>
+					<td>{ fmt.Sprint(f.Carbs) }</td>
+					<td>{ fmt.Sprint(f.Protein) }</td>
+					<td>{ fmt.Sprint(f.Fat) }</td>
+					<td>{ fmt.Sprint(f.Sugar) }</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}

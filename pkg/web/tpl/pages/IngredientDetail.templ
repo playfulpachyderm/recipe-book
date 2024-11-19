@@ -1,0 +1,120 @@
+package pages
+
+import (
+	"fmt"
+
+	. "recipe_book/pkg/db"
+)
+
+templ IngredientDetail(f Food) {
+	<h1>{ f.Name }</h1>
+
+	<form hx-post={ fmt.Sprintf("/ingredients/%d", f.ID) } hx-ext="json-enc" hx-target="body">
+		<div class="labelled-input">
+			<label>name</label>
+			<input type="name" name="name" value={ f.Name }>
+		</div>
+
+		<br>
+
+		<div class="labelled-input">
+			<label>calories</label>
+			<input type="number" name="cals" value={ fmt.Sprint(f.Cals) }>
+		</div>
+		<div class="labelled-input">
+			<label>carbs</label>
+			<input type="number" name="carbs" value={ fmt.Sprint(f.Carbs) }>
+		</div>
+		<div class="labelled-input">
+			<label>protein</label>
+			<input type="number" name="protein" value={ fmt.Sprint(f.Protein) }>
+		</div>
+		<div class="labelled-input">
+			<label>fat</label>
+			<input type="number" name="fat" value={ fmt.Sprint(f.Fat) }>
+		</div>
+
+		<br>
+
+		<div class="labelled-input">
+			<label>sugar</label>
+			<input type="number" name="sugar" value={ fmt.Sprint(f.Sugar) }>
+		</div>
+		<div class="labelled-input">
+			<label>alcohol</label>
+			<input type="number" name="alcohol" value={ fmt.Sprint(f.Alcohol) }>
+		</div>
+		<div class="labelled-input">
+			<label>water</label>
+			<input type="number" name="water" value={ fmt.Sprint(f.Water) }>
+		</div>
+
+		<br>
+
+		<div class="labelled-input">
+			<label>potassium</label>
+			<input type="number" name="potassium" value={ fmt.Sprint(f.Potassium) }>
+		</div>
+		<div class="labelled-input">
+			<label>calcium</label>
+			<input type="number" name="calcium" value={ fmt.Sprint(f.Calcium) }>
+		</div>
+		<div class="labelled-input">
+			<label>sodium</label>
+			<input type="number" name="sodium" value={ fmt.Sprint(f.Sodium) }>
+		</div>
+		<div class="labelled-input">
+			<label>magnesium</label>
+			<input type="number" name="magnesium" value={ fmt.Sprint(f.Magnesium) }>
+		</div>
+		<div class="labelled-input">
+			<label>phosphorus</label>
+			<input type="number" name="phosphorus" value={ fmt.Sprint(f.Phosphorus) }>
+		</div>
+		<div class="labelled-input">
+			<label>iron</label>
+			<input type="number" name="iron" value={ fmt.Sprint(f.Iron) }>
+		</div>
+		<div class="labelled-input">
+			<label>zinc</label>
+			<input type="number" name="zinc" value={ fmt.Sprint(f.Zinc) }>
+		</div>
+
+		<br>
+
+		<div class="labelled-input">
+			<label>
+				<span class="title-text-parent">(?)<div class="title-text">Mass of one serving or 'unit' of this food. in grams</div></span>
+				serving size (g)
+			</label>
+			<input type="number" name="mass" value={ fmt.Sprint(f.Mass) }>
+		</div>
+		<div class="labelled-input">
+			<label>price</label>
+			<input type="number" name="price" value={ fmt.Sprint(f.Price) }>
+		</div>
+		<div class="labelled-input">
+			<label>density</label>
+			<input type="number" name="density" value={ fmt.Sprint(f.Density) }>
+		</div>
+		<div class="labelled-input">
+			<label>
+				<span class="title-text-parent">(?)
+					<div class="title-text">
+						How much will it weigh after cooking, as a multiple of its original weight?
+						<br><br>
+						1 = no change
+						<br>
+						&lt;1 = weighs less than before (e.g., it released some water)
+						<br>
+						&gt;1 = weighs more than before (e.g., it soaked up water)
+					</div>
+				</span>
+				cook ratio
+			</label>
+			<input type="number" name="cook_ratio" value={ fmt.Sprint(f.CookRatio) }>
+		</div>
+
+		<input type="submit" value="Save">
+	</form>
+}

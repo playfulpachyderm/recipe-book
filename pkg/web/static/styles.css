@@ -1,0 +1,157 @@
+body {
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+}
+nav {
+    width: 20em;
+    max-width: 20%;
+    border-right: 1px solid #ddd;
+    min-height: 100vh;
+}
+input#search-bar {
+    max-width: 96%;
+    width: 20em;
+}
+main {
+    flex-grow: 1;
+    margin-right: 10%;
+    padding-left: 2em;
+    height: fit-content;
+}
+
+input[type='text'], select, textarea, span.select2-container {
+    margin: 0 0.5em 0 0.2em;
+}
+
+div.nothing {
+    /* Used because the Hoon type checker requires a `manx` sometimes (can't use ~) */
+    display: none;
+}
+
+.buttons-container {
+    display: flex;
+    margin: 0em 0 1em 0.2em;
+    gap: 2em;
+}
+.share-container {
+    display: flex;
+}
+button#share-this-recipe {
+}
+#shareLink {
+    width: 30em;
+}
+#shareLink.hidden {
+    display: none;
+}
+
+div.labelled-input {
+    display: flex;
+}
+div.labelled-input label {
+    flex-basis: 12em;
+    text-align: right;
+    margin-right: 0.3em;
+}
+div.labelled-input input {
+    flex-basis: 30em;
+}
+div.labelled-input .title-text-parent {
+    color: #888;
+    position: relative;
+}
+.ingredient-editor input[type="submit"] {
+    margin: 2em 0 0 41em;
+}
+.new-item-button {
+	margin-bottom: 1em;
+}
+.title-text {
+    display: none;
+    position: absolute;
+    width: max-content;
+    border: 1px solid black;
+    padding: 0.2em;
+    background-color: white;
+    margin-top: 0.3em;
+    text-align: left;
+}
+.title-text-parent:focus .title-text, .title-text-parent:hover .title-text {
+    display: revert;
+}
+
+table {
+    border-collapse: collapse;
+}
+th {
+    padding: 0 0.3em;
+}
+td {
+    text-align: right;
+    padding: 0.3em 0.6em;
+}
+
+td.name {
+    text-align: left;
+}
+
+td.total {
+    border-top: 1px solid darkgray;
+}
+
+form.x-button {
+    display: inline;
+    margin: 0;
+}
+form.x-button input {
+    padding: 0.1em 0.3em;
+}
+
+form.add-instr {
+    display: flex;
+    align-items: flex-end;
+}
+
+ol#instructions {
+    padding: 0 1em;
+}
+
+ol#instructions li {
+    list-style: none;
+    display: flex;
+    align-items: flex-start;
+    margin: 0.3em 0;
+}
+
+ol#instructions li span {
+    margin-top: 0.2em;
+}
+ol#instructions li span p {
+    margin: 0 0 0.5em 0;
+}
+
+ol#instructions li .instr-number{
+    margin-left: 1em;
+    margin-right: 0.5em;
+    cursor: move;
+    cursor: -webkit-grab;
+}
+img#logo {
+    width: 60%;
+    display: block;
+    margin: 1em auto 3em auto;
+    background-color: #cef;
+    border-radius: 50%;
+    border: 5px solid #8bd;
+    box-sizing: border-box;
+}
+
+div.original-author-container {
+    display: flex;
+    align-items: center;
+    gap: 2em;
+}
+div.original-author-container form {
+    margin: 0;
+}

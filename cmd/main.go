@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 
 	pkg_db "recipe_book/pkg/db"
+	"recipe_book/pkg/web"
 )
 
 const DB_FILENAME = "food.db"
@@ -27,6 +28,15 @@ func main() {
 	switch args[0] {
 	case "init":
 		init_db()
+	case "webserver":
+		fs := flag.NewFlagSet("", flag.ExitOnError)
+		should_auto_open := fs.Bool("auto-open", false, "")
+		addr := fs.String("addr", "localhost:3080", "port to listen on") // Random port that's probably not in use
+
+		if err := fs.Parse(args[1:]); err != nil {
+			panic(err)
+		}
+		start_webserver(*addr, *should_auto_open)
 	default:
 		fmt.Printf(COLOR_RED+"invalid subcommand: %q\n"+COLOR_RESET, args[0])
 		os.Exit(1)
@@ -55,3 +65,14 @@ const (
 	COLOR_GRAY   = "\033[37m"
 	COLOR_WHITE  = "\033[97m"
 )
+
+func start_webserver(addr string, should_auto_open bool) {
+	db, err := pkg_db.DBConnect(filepath.Join(db_path, DB_FILENAME))
+	if err != nil {
+		fmt.Println(COLOR_RED + "opening database: " + err.Error() + COLOR_RESET)
+		os.Exit(1)
+	}
+
+	app := web.NewApp(db)
+	app.Run(addr, should_auto_open)
+}

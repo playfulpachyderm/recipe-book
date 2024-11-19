@@ -1,0 +1,36 @@
+package pages
+
+templ Base(title string) {
+	<!doctype html>
+	<html lang='en'>
+		<head>
+			<meta charset='utf-8'>
+			<title>{ title } | Recipe Book</title>
+
+			// Page content
+			<link rel='shortcut icon' href='/static/chili-garlic.png' type='image/x-icon'>
+			<link rel='stylesheet' href='/static/styles.css'>
+
+			// HTMX
+			<script src="/static/vendor/htmx.min.js" integrity="sha384-oecSB0HeI5gdFcssloeKf3nByrZ7XjyAKxoykSkH8A4WPwT6suR+Ie4wGSLaQJBu" crossorigin="anonymous"></script>
+			<script src="/static/vendor/htmx-extension-json-enc.js"></script>
+		</head>
+		<body>
+			<nav>
+				<img id="logo" src="/static/chili-garlic.png">
+				<ul>
+					<li><a hx-get="/ingredients" hx-target="body" hx-push-url="true">Ingredients</a></li>
+					<li><a hx-get="/recipes" hx-target="body" hx-push-url="true">Recipes</a></li>
+				</ul>
+				<ul>
+					<li><a hx-get="/about" hx-target="body" hx-push-url="true">About this app</a></li>
+					<li><a hx-get="/help" hx-target="body" hx-push-url="true">Help</a></li>
+					<li><a hx-get="/changelog" hx-target="body" hx-push-url="true">Changelog</a></li>
+				</ul>
+			</nav>
+			<main>
+				{ children... }
+			</main>
+		</body>
+	</html>
+}

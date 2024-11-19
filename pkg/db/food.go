@@ -1,36 +1,38 @@
 package db
 
 import (
+	"database/sql"
+	"errors"
 	"fmt"
 )
 
 type FoodID uint64
 
 type Food struct {
-	ID   FoodID `db:"rowid"`
-	Name string `db:"name"`
+	ID   FoodID `db:"rowid" json:"id"`
+	Name string `db:"name" json:"name"`
 
-	Cals    float32 `db:"cals"`
-	Carbs   float32 `db:"carbs"`
-	Protein float32 `db:"protein"`
-	Fat     float32 `db:"fat"`
-	Sugar   float32 `db:"sugar"`
-	Alcohol float32 `db:"alcohol"`
+	Cals    float32 `db:"cals" json:"cals,string"`
+	Carbs   float32 `db:"carbs" json:"carbs,string"`
+	Protein float32 `db:"protein" json:"protein,string"`
+	Fat     float32 `db:"fat" json:"fat,string"`
+	Sugar   float32 `db:"sugar" json:"sugar,string"`
+	Alcohol float32 `db:"alcohol" json:"alcohol,string"`
 
-	Water float32 `db:"water"`
+	Water float32 `db:"water" json:"water,string"`
 
-	Potassium  float32 `db:"potassium"`
-	Calcium    float32 `db:"calcium"`
-	Sodium     float32 `db:"sodium"`
-	Magnesium  float32 `db:"magnesium"`
-	Phosphorus float32 `db:"phosphorus"`
-	Iron       float32 `db:"iron"`
-	Zinc       float32 `db:"zinc"`
+	Potassium  float32 `db:"potassium" json:"potassium,string"`
+	Calcium    float32 `db:"calcium" json:"calcium,string"`
+	Sodium     float32 `db:"sodium" json:"sodium,string"`
+	Magnesium  float32 `db:"magnesium" json:"magnesium,string"`
+	Phosphorus float32 `db:"phosphorus" json:"phosphorus,string"`
+	Iron       float32 `db:"iron" json:"iron,string"`
+	Zinc       float32 `db:"zinc" json:"zinc,string"`
 
-	Mass      float32 `db:"mass"` // In grams
-	Price     float32 `db:"price"`
-	Density   float32 `db:"density"`
-	CookRatio float32 `db:"cook_ratio"`
+	Mass      float32 `db:"mass" json:"mass,string"` // In grams
+	Price     float32 `db:"price" json:"price,string"`
+	Density   float32 `db:"density" json:"density,string"`
+	CookRatio float32 `db:"cook_ratio" json:"cook_ratio,string"`
 }
 
 // Format as string
@@ -101,6 +103,9 @@ func (db *DB) GetFoodByID(id FoodID) (ret Food, err error) {
 		  from foods
 		 where rowid = ?
 	`, id)
+	if errors.Is(err, sql.ErrNoRows) {
+		return Food{}, ErrNotInDB
+	}
 	return
 }
 
